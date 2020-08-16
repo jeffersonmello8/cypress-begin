@@ -20,18 +20,38 @@ describe("Tickets", () => {
         cy.get("#vip").check();
     });
 
-    it.only("select 'social media' checkbox", () => {
+    it("select 'social media' checkbox", () => {
         cy.get("#social-media").check();
     });
 
-    it.only("select 'friend', and 'publication', then uncheck 'friend'", () => {
+    it("select 'friend', and 'publication', then uncheck 'friend'", () => {
         cy.get("#friend").check();
         cy.get("#publication").check();
         cy.get("#friend").uncheck();    
     })
 
-    it("has 'TICKETBOX' header's heading", () => {
+    it.only("has 'TICKETBOX' header's heading", () => {
+        cy.get("header h1")
+          .should("contain", "TICKETBOX");
     });
+
+    it.only("alerts on invalid email", () => {
+        cy.get("#email")
+          .as("email")
+          .type("jeffersonmello8_hotmail.com");
+        
+        cy.get("#email.invalid")
+          .should("exist");
+    });
+
+    it.only("alert does not exist", () => {
+        cy.get("#email")
+          .as("email")
+          .type("jeffersonmello8@hotmail.com");
+        
+        cy.get("#email.invalid")
+          .should("not.exist");
+    })
 
 
 });
