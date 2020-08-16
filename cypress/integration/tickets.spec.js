@@ -16,11 +16,22 @@ describe("Tickets", () => {
         cy.get("#ticket-quantity").select("2");
     });
 
-    it.only("select 'vip' ticket type", () => {
+    it("select 'vip' ticket type", () => {
         cy.get("#vip").check();
     });
 
-    it("has 'TICKETBOX' header's heading", () => {});
+    it.only("select 'social media' checkbox", () => {
+        cy.get("#social-media").check();
+    });
+
+    it.only("select 'friend', and 'publication', then uncheck 'friend'", () => {
+        cy.get("#friend").check();
+        cy.get("#publication").check();
+        cy.get("#friend").uncheck();    
+    })
+
+    it("has 'TICKETBOX' header's heading", () => {
+    });
 
 
 });
