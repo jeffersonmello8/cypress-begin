@@ -30,12 +30,12 @@ describe("Tickets", () => {
         cy.get("#friend").uncheck();    
     })
 
-    it.only("has 'TICKETBOX' header's heading", () => {
+    it("has 'TICKETBOX' header's heading", () => {
         cy.get("header h1")
           .should("contain", "TICKETBOX");
     });
 
-    it.only("alerts on invalid email", () => {
+    it("alerts on invalid email", () => {
         cy.get("#email")
           .as("email")
           .type("jeffersonmello8_hotmail.com");
@@ -44,13 +44,44 @@ describe("Tickets", () => {
           .should("exist");
     });
 
-    it.only("alert does not exist", () => {
+    it("alert does not exist", () => {
         cy.get("#email")
           .as("email")
           .type("jeffersonmello8@hotmail.com");
         
         cy.get("#email.invalid")
           .should("not.exist");
+    })
+
+    it.only("fills and reset the form", () => {
+        const firstName = "Jefferson";
+        const lastName = "Melo";
+        const fullName = `${firstName} ${lastName}`;
+
+        cy.get("#first-name").type(firstName);
+        cy.get("#last-name").type(lastName);
+        cy.get("#email").type("jefferson.mello8@hotmail.com");
+        cy.get("#ticket-quantity").select("2");
+        cy.get("#vip").check();
+        cy.get("#friend").check();
+        cy.get("#requests").type("IPA beer");
+
+        cy.get(".agreement p").should(
+            "contain",
+            `I, ${fullName}, wish to buy 2 VIP tickets.`
+        );
+
+        cy.get("#agree").click();
+        cy.get("#signature").type(fullName);
+
+        cy.get("button[type='submit']")
+          .as("submitButton")
+          .should("not.be.disabled");
+
+        cy.get("button[type='reset']").click();
+
+        cy.get("@submitButton").should("be.disabled");
+ 
     })
 
 
